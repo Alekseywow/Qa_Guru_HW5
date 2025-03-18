@@ -1,83 +1,94 @@
 package tests;
 
+import io.qameta.allure.Owner;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import pages.RegistrationPage;
+import utils.TestData;
+
+
 
 public class RegistrationPageObjectTests extends TestBase{
 
     RegistrationPage registrationPage = new RegistrationPage();
+    TestData testData = new TestData();
+
+
+
+
 
     @Test
+    @Owner("Aleksey Danilov")
+    @Tag("Smoke")
     void successFullRegistrationTest() {
         registrationPage.openPage()
                 .removeBanner()
-                .setFirstName("Aleksey")
-                .setLastName("Alla")
-                .setUserEmail("asd@re.ru")
-                .setGender("Male")
-                .setUserNumber("1231231231")
-                .setDateOfBrith("26","September", "1994")
-                .setSubject("English")
-                .setHobbies("Sports")
-                .setImages("images_2.jpg")
-                .setAddress("asda")
-                .setState("NCR")
-                .setCity("Delhi")
+                .setFirstName(testData.firstName)
+                .setLastName(testData.lastName)
+                .setUserEmail(testData.userEmail)
+                .setGender(testData.genderWrapper)
+                .setUserNumber(testData.userPhone)
+                .setDateOfBrith(testData.dayOfBirth, testData.monthOfBirth, testData.yearOfBirth)
+                .setSubject(testData.subject)
+                .setHobbies(testData.hobby)
+                .setImages(testData.picture)
+                .setAddress(testData.address)
+                .setState(testData.state)
+                .setCity(testData.city)
                 .submit();
 
         registrationPage.submissionCheckSuccess()
                 .submissionModalMessage("Thanks for submitting the form");
 
 
-        registrationPage.checkResultTablePairs("Student Name", "Aleksey Alla")
-                .checkResultTablePairs("Student Email", "asd@re.ru")
-                .checkResultTablePairs("Gender", "Male")
-                .checkResultTablePairs("Mobile", "1231231231")
-                .checkResultTablePairs("Date of Birth", "26 September,1994")
-                .checkResultTablePairs("Subjects", "English")
-                .checkResultTablePairs("Hobbies", "Sports")
-                .checkResultTablePairs("Picture", "images_2.jpg")
-                .checkResultTablePairs("Address", "asda")
-                .checkResultTablePairs("State and City", "NCR Delhi");
+        registrationPage.checkResultTablePairs("Student Name", testData.firstName + " " + testData.lastName)
+                .checkResultTablePairs("Student Email", testData.userEmail)
+                .checkResultTablePairs("Gender", testData.genderWrapper)
+                .checkResultTablePairs("Mobile", testData.userPhone)
+                .checkResultTablePairs("Date of Birth", testData.dayOfBirth + " " + testData.monthOfBirth + "," + testData.yearOfBirth)
+                .checkResultTablePairs("Subjects", testData.subject)
+                .checkResultTablePairs("Hobbies", testData.hobby)
+                .checkResultTablePairs("Picture", testData.picture)
+                .checkResultTablePairs("Address", testData.address)
+                .checkResultTablePairs("State and City", testData.state + " " + testData.city);
 
     }
 
     @Test
+    @Owner("Aleksey Danilov")
+    @Tag("Smoke")
     void successMinimalRegistrationTest() {
         registrationPage.openPage()
                 .removeBanner()
-                .setFirstName("Aleksey")
-                .setLastName("Alla")
-                .setUserEmail("asd@re.ru")
-                .setGender("Male")
-                .setUserNumber("1231231231")
+                .setFirstName(testData.firstName)
+                .setLastName(testData.lastName)
+                .setUserEmail(testData.userEmail)
+                .setGender(testData.genderWrapper)
+                .setUserNumber(testData.userPhone)
                 .submit();
 
         registrationPage.submissionCheckSuccess()
                 .submissionModalMessage("Thanks for submitting the form");
 
-        registrationPage.checkResultTablePairs("Student Name", "Aleksey Alla")
-                .checkResultTablePairs("Student Email", "asd@re.ru")
-                .checkResultTablePairs("Gender", "Male")
-                .checkResultTablePairs("Mobile", "1231231231");
+        registrationPage.checkResultTablePairs("Student Name", testData.firstName + " " + testData.lastName)
+                .checkResultTablePairs("Student Email", testData.userEmail)
+                .checkResultTablePairs("Gender", testData.genderWrapper)
+                .checkResultTablePairs("Mobile", testData.userPhone);
     }
 
     @Test
+    @Owner("Aleksey Danilov")
+    @Tag("Smoke")
     void negativeRegistrationTest() {
         registrationPage.openPage()
                 .removeBanner()
-                .setFirstName("Aleksey")
-                .setLastName("Alla")
-                .setUserEmail("asd@re.ru")
-                .setGender("Male")
-                .setUserNumber("444")
+                .setFirstName(testData.firstName)
+                .setLastName(testData.lastName)
+                .setUserEmail(testData.userEmail)
+                .setGender(testData.genderWrapper)
+                .setUserNumber(testData.setNumberNegative)
                 .submit()
                 .negativeCheckResult();
 
-
-
     }
-
-
-
 }
