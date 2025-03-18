@@ -1,5 +1,7 @@
 package tests;
 
+import io.qameta.allure.Owner;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import pages.RegistrationPage;
 import utils.TestData;
@@ -16,6 +18,8 @@ public class RegistrationPageObjectTests extends TestBase{
 
 
     @Test
+    @Owner("Aleksey Danilov")
+    @Tag("Smoke")
     void successFullRegistrationTest() {
         registrationPage.openPage()
                 .removeBanner()
@@ -51,6 +55,8 @@ public class RegistrationPageObjectTests extends TestBase{
     }
 
     @Test
+    @Owner("Aleksey Danilov")
+    @Tag("Smoke")
     void successMinimalRegistrationTest() {
         registrationPage.openPage()
                 .removeBanner()
@@ -71,6 +77,8 @@ public class RegistrationPageObjectTests extends TestBase{
     }
 
     @Test
+    @Owner("Aleksey Danilov")
+    @Tag("Smoke")
     void negativeRegistrationTest() {
         registrationPage.openPage()
                 .removeBanner()
@@ -82,10 +90,5 @@ public class RegistrationPageObjectTests extends TestBase{
                 .submit()
                 .negativeCheckResult();
 
-
-
     }
-
-
-
 }

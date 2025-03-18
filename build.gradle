@@ -1,9 +1,26 @@
 plugins {
     id 'java-library'
+    id ("io.qameta.allure") version "2.12.0" //Этот плагин интегрирует Allure (систему отчетности для автоматизированного тестирования) в ваш проект. Указанная версия – это версия самого плагина.
 }
 
 repositories {
     mavenCentral()
+}
+
+
+
+allure {
+    report {
+        version.set("2.29.0") // Указывает, какую версию Allure будет использовать для генерации отчетов. В данном случае используется версия 2.29.0.
+    }
+    adapter { //Это секция, управляющая адаптером Allure для различных фреймворков тестирования.
+        aspectjWeaver.set(true) //Включает поддержку AspectJ, что может помочь при использовании аннотаций Allure в случае использования фреймворка тестирования, который требует аспектно-ориентированной программирования.
+        frameworks { //Определяет настройки для используемых вами фреймворков тестирования.
+            junit5 { //Определяет настройки для используемых вами фреймворков тестирования.
+                adapterVersion.set("2.29.0")
+            }
+        }
+    }
 }
 
 dependencies {
@@ -11,10 +28,25 @@ dependencies {
             "com.codeborne:selenide:6.19.1",
             "com.github.javafaker:javafaker:1.0.2",
             "org.junit.jupiter:junit-jupiter:5.10.0",
-            'org.slf4j:slf4j-simple:2.0.7'
+            'org.slf4j:slf4j-simple:2.0.7',
+            "io.qameta.allure:allure-selenide:2.29.0"
     )
 }
 
-test {
+tasks.withType(Test) {
+    systemProperties(System.getProperties())
     useJUnitPlatform()
+
+    testLogging {
+        lifecycle {
+            events "started", "skipped", "failed", "standard_error", "standard_out"
+            exceptionFormat "short"
+        }
+    }
+}
+
+task demoqa_test(type: Test) {
+    useJUnitPlatform {
+        includeTags("Smoke")
+    }
 }
